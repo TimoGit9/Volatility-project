@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+VIX = pd.read_csv("./VIX_History.csv", parse_dates=['Date'])
+TenYear = pd.read_excel("./10y.xlsx", parse_dates=['Date'])
+SOFR = pd.read_excel("./SOFR.xlsx", parse_dates=['Date'])
+GDP = pd.read_excel("./GDP.xlsx", parse_dates=['Date'])
+GNI = pd.read_excel("./GNI.xlsx", parse_dates=['Date'])
+GNP = pd.read_excel("./GNP.xlsx", parse_dates=['Date'])
+Unemployment = pd.read_excel("./Unemployment.xlsx", parse_dates=['Date'])
+CPI = pd.read_excel("./CPI.xlsx", parse_dates=['Date'])
+PPI = pd.read_excel("./PPI.xlsx", parse_dates=['Date'])
+
+#here get data into the right form
+
+
+def fit_garch_model(returns):
+    returns = returns.dropna()
+    model = arch_model(returns, vol='Garch', p=1, q=1)
+    garch_result = model.fit(disp='off')
+    forecast = garch_result.forecast(horizon=1)
+
+    return garch_result
+
+def main():
+    #correlationfunction
+
+    #principalcomponentanalysis
+
+    #graph
+
+    #heatmap
