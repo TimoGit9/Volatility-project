@@ -46,7 +46,7 @@ class DataReader:
                 print(f"Loaded {name} from {filename}")
 
             return datasets
-        #ectioption that are thrown if there is an issue with loading the data. Check base path
+        #exctioption that are thrown if there is an issue with loading the data. Check base path
         #if is correctly initialized, or add your own correct path to constructor of DataReader class
         except FileNotFoundError as e:
             print(f"File not found: {e}")
