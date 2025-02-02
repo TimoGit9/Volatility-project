@@ -62,7 +62,6 @@ class DataPreprocessor:
         df_monthly = df_monthly[["CLOSE"]]
         df_monthly.columns = ["VIX"]
         self.datasets["VIX"] = df_monthly
-        return df_monthly
 
     def clean_CPI(self):
         df = self.datasets.get("CPI")
@@ -104,7 +103,6 @@ class DataPreprocessor:
         df.set_index("Date", inplace=True)
         self.datasets["PPI"] = df
 
-    import pandas as pd
 
     def SetSameInterval(self):
         """Cleans all datasets, checks for misalignments, and merges them into a single DataFrame by Date."""
