@@ -25,9 +25,9 @@ class DataReader:
         try:
             files = {
                 "VIX": ("VIX_History.csv", "DATE"),
-                "TenYear": ("10y.xlsx", "Date"),
+                #"TenYear": ("10y.xlsx", "Date"),
                 "SOFR": ("SOFR.xlsx", "Effective Date"),
-                "GDP": ("GDP.xlsx", "GDP Final*"),
+                "GDP": ("GDP.xlsx", "Period"),
                 "GNI": ("GNI.xlsx", "Period"),
                 "GNP": ("GNP.xlsx", "Period"),
                 "Unemployment": ("Unemployment.xlsx", "Original Release Date"),
@@ -40,8 +40,22 @@ class DataReader:
                 if filename.endswith(".csv"):
                     data = pd.read_csv(path, parse_dates=[date_col])
                 else:
-                    data = pd.read_excel(path, parse_dates=[date_col])
-                data.rename(columns={date_col: "Date"}, inplace=True)
+                    if name == "GDP":
+                        data = pd.read_excel(path)
+                        data["Date"] = pd.to_datetime(
+                            data["Period"].str.extract(r"(\d{4})")[0] + "-" +
+                            data["Period"].str.extract(r"Q(\d)")[0].map(
+                                {"1": "03", "2": "06", "3": "09", "4": "12"}
+                            ) + "-01",
+                            format="%Y-%m-%d", errors="coerce"
+                        )
+                        data.drop(columns=["Period"], inplace=True)
+
+                    else:
+                        data = pd.read_excel(path)
+                        if date_col in data.columns:
+                            data["Date"] = pd.to_datetime(data[date_col], errors="coerce")
+                            data.drop(columns=[date_col], inplace=True)  # Remove original date column
                 datasets[name] = data
                 print(f"Loaded {name} from {filename}")
 
