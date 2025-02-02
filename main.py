@@ -49,17 +49,8 @@ def correlationfunction(data1, data2, col1, col2):
 
 def garch_model(returns):
     returns = returns.dropna()
-    model = arch_model(returns, vol='Garch', p=1, q=1)
-    garch_result = model.fit(disp='off')
-    forecast = garch_result.forecast(horizon=1)
+   # model = arch_model(returns, vol='Garch', p=1, q=1)
+    #garch_result = model.fit(disp='off')
+    #forecast = garch_result.forecast(horizon=1)
 
-    return garch_result
-
-def main():
-    #correlationfunction
-
-    #principalcomponentanalysis
-
-    #graph
-
-    #heatmap
+    #return garch_result
