@@ -1,6 +1,6 @@
 # Volatility-project
 
-# Intallation
+# # Installation
 
 # Description
 Our project processes and analyses various macroeconomic data in the context of market volatility (approximated by VIX).
