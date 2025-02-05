@@ -84,6 +84,10 @@ class DataPreprocessor:
         self.datasets["CPI"] = df
 
     def clean_PPI(self):
+        def change_calculation(df):
+            df['Value'] = (df['PPI'] - df['PPI'].shift(-1))
+            df['Value'] = df['Value'].fillna(0)
+            return df
         df = self.datasets.get("PPI")
         df = df[["Period", "First Release"]].copy()
         df.columns = ["Period", "PPI"]
@@ -101,6 +105,7 @@ class DataPreprocessor:
         df["PPI"] = pd.to_numeric(df["PPI"], errors="coerce")
         df.sort_values("Date", ascending=True, inplace=True)
         df.set_index("Date", inplace=True)
+        df = change_calculation(df)
         self.datasets["PPI"] = df
 
 
