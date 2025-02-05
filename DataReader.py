@@ -33,6 +33,7 @@ class DataReader:
                 "Unemployment": ("Unemployment.xlsx", "Original Release Date"),
                 "CPI": ("CPI.xlsx", "Original Release Date"),
                 "PPI": ("PPI.xlsx", "Original Release Date"),
+                "DGS10" : ("DGS10.csv", "observation_date"),
             }
             datasets = {}
             for name, (filename, date_col) in files.items():
