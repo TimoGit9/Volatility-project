@@ -85,8 +85,8 @@ class DataPreprocessor:
 
     def clean_PPI(self):
         def change_calculation(df):
-            df['Value'] = (df['PPI'] - df['PPI'].shift(-1))
-            df['Value'] = df['Value'].fillna(0)
+            df['PPI'] = (df['PPI'] - df['PPI'].shift(-1))
+            df['PPI'] = df['PPI'].fillna(0)
             return df
         df = self.datasets.get("PPI")
         df = df[["Period", "First Release"]].copy()
@@ -109,31 +109,15 @@ class DataPreprocessor:
         self.datasets["PPI"] = df
 
     def clean_DGS10(self):
-        # Load the dataset
-        df = self.datasets.get("DGS10")  # Get the dataset from the stored collection
 
-        # Select relevant columns
+        df = self.datasets.get("DGS10")
         df = df[["observation_date", "DGS10"]].copy()
-
-        # Rename columns
         df.columns = ["Date", "DGS10"]
-
-        # Convert Date column to datetime format
         df["Date"] = pd.to_datetime(df["Date"], format="%Y-%m-%d", errors="coerce")
-
-        # Convert DGS10 values to numeric, forcing errors to NaN
         df["DGS10"] = pd.to_numeric(df["DGS10"], errors="coerce")
-
-        # Handle missing values (e.g., forward fill)
         df.loc[:, "DGS10"] = df["DGS10"].ffill()
-
-        # Sort by date
         df.sort_values("Date", ascending=True, inplace=True)
-
-        # Set Date as the index
         df.set_index("Date", inplace=True)
-
-        # Store the cleaned dataset back
         self.datasets["DGS10"] = df
 
     def SetSameInterval(self):
